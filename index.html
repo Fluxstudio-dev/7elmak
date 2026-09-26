@@ -42,6 +42,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
+  margin-top: 10px;
 
   width: 100%;
   height: 80px;
@@ -62,14 +63,12 @@ body {
 .logo {
  display: flex;
  align-items: center;
- width: 170px;
- height: 48px;
  text-decoration: none;
 }
 
 .logo img {
  display: block;
- width: 170px;
+ width: 150px;
  height: auto;
  object-fit: contain;
  object-position: left center;
@@ -118,67 +117,15 @@ nav a:hover{
 }
 
 .animated-word {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-
-  font-size: clamp(38px, 3.8vw, 61px);
-  font-weight: 300;
-  letter-spacing: 10px;
-  line-height: 1;
-  white-space: nowrap;
-
-  opacity: 1;
-  transform: scaleX(1);
-  filter: blur(0);
-
-  clip-path: inset(0 0 0 0);
-
-  transition:
-    clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1),
-    filter 0.65s ease,
-    transform 0.8s cubic-bezier(0.76, 0, 0.24, 1),
-    opacity 0.6s ease;
+  display: inline-flex; justify-content: center; align-items: center; gap: 22px;
+  font-size: clamp(38px, 3.8vw, 61px); font-weight: 300; letter-spacing: 10px; line-height: 1; white-space: nowrap;
+  min-width: 650px;
 }
 
+.animated-letter { display:inline-block; opacity:0; transform:translateY(8px); animation:letterWrite .08s ease forwards; }
+@keyframes letterWrite { 0%{opacity:0;transform:translateY(8px);filter:blur(4px)} 60%{opacity:1;transform:translateY(-1px);filter:blur(0)} 100%{opacity:1;transform:translateY(0);filter:blur(0)} }
+@keyframes letterErase { 0%{opacity:1;transform:translateY(0);filter:blur(0)} 100%{opacity:0;transform:translateY(-6px);filter:blur(3px)} }
 
-/* ==============================
-   أثناء اختفاء الكلمة
-   الأطراف تتحرك للمنتصف
-============================== */
-
-.animated-word.word-hide {
-  clip-path: inset(0 50% 0 50%);
-  transform: scaleX(0.94);
-  filter: blur(5px);
-  opacity: 0;
-}
-
-
-/* ==============================
-   بداية ظهور الكلمة الجديدة
-   تبدأ من المنتصف
-============================== */
-
-.animated-word.word-show {
-  clip-path: inset(0 50% 0 50%);
-  transform: scaleX(0.94);
-  filter: blur(5px);
-  opacity: 0;
-}
-
-
-/* ==============================
-   اكتمال ظهور الكلمة
-============================== */
-
-.animated-word.word-visible {
-  clip-path: inset(0 0 0 0);
-  transform: scaleX(1);
-  filter: blur(0);
-  opacity: 1;
-}
 .word-first {
   color: #ffb900;
 }
@@ -378,131 +325,15 @@ nav a:hover{
   </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const word = document.querySelector(".animated-word");
-
-    const services = [
-        "WEB DESIGN",
-        "WEB DEVELOPMENT",
-        "MOBILE APPLICATION",
-        "UI/UX",
-        "SERVER",
-        "GRAPHIC DESIGN",
-        "EMAIL",
-        "MARKETING"
-    ];
-
-    let index = 0;
-    let isAnimating = false;
-
-
-    function showService(text) {
-
-        const parts = text.split(" ");
-
-        word.innerHTML = "";
-
-        if (parts.length >= 2) {
-
-            const first = document.createElement("span");
-            first.className = "word-first";
-            first.textContent = parts.slice(0, -1).join(" ");
-
-            const second = document.createElement("span");
-            second.className = "word-second";
-            second.textContent = parts[parts.length - 1];
-
-            word.appendChild(first);
-            word.appendChild(second);
-
-        } else {
-
-            const first = document.createElement("span");
-            first.className = "word-first";
-            first.textContent = text;
-
-            word.appendChild(first);
-        }
-    }
-
-
-    function changeWord() {
-
-        if (isAnimating) return;
-
-        isAnimating = true;
-
-
-        /* =========================================
-           1 — اختفاء الكلمة الحالية
-           الأطراف تدخل إلى المنتصف
-        ========================================= */
-
-        word.classList.remove("word-visible");
-        word.classList.add("word-hide");
-
-
-        /* =========================================
-           2 — بعد انتهاء الاختفاء
-           نغير الكلمة
-        ========================================= */
-
-        setTimeout(() => {
-
-            index = (index + 1) % services.length;
-
-            showService(services[index]);
-
-
-            /* نجهز الكلمة الجديدة في المنتصف */
-
-            word.classList.remove("word-hide");
-            word.classList.add("word-show");
-
-
-            /* =========================================
-               3 — إجبار المتصفح على تسجيل الحالة
-            ========================================= */
-
-            requestAnimationFrame(() => {
-
-                requestAnimationFrame(() => {
-
-                    /* =================================
-                       4 — ظهور من المنتصف للخارج
-                    ================================= */
-
-                    word.classList.remove("word-show");
-                    word.classList.add("word-visible");
-
-                });
-
-            });
-
-
-            /* انتهاء الأنيميشن */
-
-            setTimeout(() => {
-
-                isAnimating = false;
-
-            }, 800);
-
-
-        }, 800);
-    }
-
-
-    /* أول كلمة */
-
-    showService(services[index]);
-
-
-    /* تغيير الكلمة كل 4 ثواني */
-
-    setInterval(changeWord, 4000);
-
+document.addEventListener("DOMContentLoaded",function(){
+ const word=document.querySelector(".animated-word");
+ const services=["WEB DESIGN","WEB DEVELOPMENT","MOBILE APPLICATION","UI/UX","SERVER","GRAPHIC DESIGN","EMAIL","MARKETING"];
+ let index=0,isAnimating=false;
+ function createLetters(container,text,startDelay=0){[...text].forEach((char,i)=>{const l=document.createElement("span");l.className="animated-letter";l.textContent=char===" "?"\u00A0":char;l.style.animationDelay=`${startDelay+i*.07}s`;container.appendChild(l);});}
+ function showService(text){word.innerHTML="";const p=text.split(" "),firstText=p.slice(0,-1).join(" "),secondText=p[p.length-1];if(firstText){const first=document.createElement("span");first.className="word-first";createLetters(first,firstText);word.appendChild(first);}if(secondText){const second=document.createElement("span");second.className="word-second";createLetters(second,secondText,firstText?firstText.length*.07+.05:0);word.appendChild(second);}}
+ function eraseWord(callback){const letters=[...word.querySelectorAll(".animated-letter")],total=letters.length;letters.forEach((l,i)=>{l.style.animation="none";l.style.opacity="1";l.style.transform="translateY(0)";setTimeout(()=>{l.style.animation="letterErase .10s ease forwards";},(total-1-i)*45);});setTimeout(callback,total*45+140);}
+ function changeWord(){if(isAnimating)return;isAnimating=true;eraseWord(()=>{index=(index+1)%services.length;showService(services[index]);setTimeout(()=>{isAnimating=false;},900);});}
+ showService(services[index]);setInterval(changeWord,5000);
 });
 </script>
 
