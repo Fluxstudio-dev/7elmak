@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCHI — Awards Winning</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+  <main class="hero">
+
+    <header class="header">
+      <a class="logo" href="#">
+        <img src="assets/img/logo.png" alt="7elmak">
+      </a>
+
+      <nav>
+        <a href="#">Home</a>
+        <span class="dot"></span>
+        <a href="#">About</a>
+        <span class="dot"></span>
+        <a href="#">Services</a>
+        <span class="dot"></span>
+        <a href="#">Projects</a>
+        <span class="dot"></span>
+        <a href="#">Marketing</a>
+        <span class="dot"></span>
+        <a href="#">Emails</a>
+        <span class="dot"></span>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <section class="headline">
+      <span class="animated-word">
+          <span class="word-first">WEB</span>
+          <span class="word-second">DESIGN</span>
+      </span>
+  </section>
+
+  </main>
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="copyright">
+        © Copyright 2026 - <a href="#">7elmak</a> IT Solution
+      </div>
+
+      <div class="social-links">
+
+        <a href="#" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+    
+        <a href="#" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+    
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const word = document.querySelector(".animated-word");
+    
+        const services = [
+            "WEB DESIGN",
+            "WEB DEVELOPMENT",
+            "MOBILE APPLICATION",
+            "UI/UX",
+            "SERVER",
+            "GRAPHIC DESIGN",
+            "EMAIL",
+            "MARKETING"
+        ];
+    
+        let index = 0;
+    
+        function showService(text) {
+    
+            const parts = text.split(" ");
+    
+            word.innerHTML = "";
+    
+            if (parts.length >= 2) {
+    
+                const first = document.createElement("span");
+                first.className = "word-first";
+                first.textContent = parts.slice(0, -1).join(" ");
+    
+                const second = document.createElement("span");
+                second.className = "word-second";
+                second.textContent = parts[parts.length - 1];
+    
+                word.appendChild(first);
+                word.appendChild(second);
+    
+            } else {
+    
+                const first = document.createElement("span");
+                first.className = "word-first";
+                first.textContent = text;
+    
+                word.appendChild(first);
+            }
+        }
+    
+        setInterval(function () {
+    
+            // اختفاء
+            word.style.opacity = "0";
+            word.style.transform = "translateY(-12px)";
+    
+            setTimeout(function () {
+    
+                // الكلمة التالية
+                index = (index + 1) % services.length;
+    
+                showService(services[index]);
+    
+                // بداية الظهور
+                word.style.transform = "translateY(12px)";
+    
+                requestAnimationFrame(function () {
+                    word.style.opacity = "1";
+                    word.style.transform = "translateY(0)";
+                });
+    
+            }, 500);
+    
+        }, 3000);
+    
+    });
+    </script>
+
+</body>
+</html>
