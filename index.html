@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARCHI — Awards Winning</title>
+  <title>7elmak</title>
   <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="icon" href="assets/img/icon.png">
 
       <style>
         .hero {
@@ -57,7 +57,7 @@
   <footer class="site-footer">
     <div class="footer-content">
       <div class="copyright">
-        © Copyright 2026 - <a href="#">7elmak</a> IT Solution
+        © Copyright 2026 - <a href="#" style="color: #fff;">7elmak</a> IT Solution
       </div>
 
       <div class="social-links">
@@ -66,87 +66,138 @@
             <i class="fa-brands fa-facebook-f"></i>
         </a>
     
-        <a href="#" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-    
     </div>
   </footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    
-        const word = document.querySelector(".animated-word");
-    
-        const services = [
-            "WEB DESIGN",
-            "WEB DEVELOPMENT",
-            "MOBILE APPLICATION",
-            "UI/UX",
-            "SERVER",
-            "GRAPHIC DESIGN",
-            "EMAIL",
-            "MARKETING"
-        ];
-    
-        let index = 0;
-    
-        function showService(text) {
-    
-            const parts = text.split(" ");
-    
-            word.innerHTML = "";
-    
-            if (parts.length >= 2) {
-    
-                const first = document.createElement("span");
-                first.className = "word-first";
-                first.textContent = parts.slice(0, -1).join(" ");
-    
-                const second = document.createElement("span");
-                second.className = "word-second";
-                second.textContent = parts[parts.length - 1];
-    
-                word.appendChild(first);
-                word.appendChild(second);
-    
-            } else {
-    
-                const first = document.createElement("span");
-                first.className = "word-first";
-                first.textContent = text;
-    
-                word.appendChild(first);
-            }
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const word = document.querySelector(".animated-word");
+
+    const services = [
+        "WEB DESIGN",
+        "WEB DEVELOPMENT",
+        "MOBILE APPLICATION",
+        "UI/UX",
+        "SERVER",
+        "GRAPHIC DESIGN",
+        "EMAIL",
+        "MARKETING"
+    ];
+
+    let index = 0;
+    let isAnimating = false;
+
+
+    function showService(text) {
+
+        const parts = text.split(" ");
+
+        word.innerHTML = "";
+
+        if (parts.length >= 2) {
+
+            const first = document.createElement("span");
+            first.className = "word-first";
+            first.textContent = parts.slice(0, -1).join(" ");
+
+            const second = document.createElement("span");
+            second.className = "word-second";
+            second.textContent = parts[parts.length - 1];
+
+            word.appendChild(first);
+            word.appendChild(second);
+
+        } else {
+
+            const first = document.createElement("span");
+            first.className = "word-first";
+            first.textContent = text;
+
+            word.appendChild(first);
         }
-    
-        setInterval(function () {
-    
-            // اختفاء
-            word.style.opacity = "0";
-            word.style.transform = "translateY(-12px)";
-    
-            setTimeout(function () {
-    
-                // الكلمة التالية
-                index = (index + 1) % services.length;
-    
-                showService(services[index]);
-    
-                // بداية الظهور
-                word.style.transform = "translateY(12px)";
-    
-                requestAnimationFrame(function () {
-                    word.style.opacity = "1";
-                    word.style.transform = "translateY(0)";
+    }
+
+
+    function changeWord() {
+
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+
+        /* =========================================
+           1 — اختفاء الكلمة الحالية
+           الأطراف تدخل إلى المنتصف
+        ========================================= */
+
+        word.classList.remove("word-visible");
+        word.classList.add("word-hide");
+
+
+        /* =========================================
+           2 — بعد انتهاء الاختفاء
+           نغير الكلمة
+        ========================================= */
+
+        setTimeout(() => {
+
+            index = (index + 1) % services.length;
+
+            showService(services[index]);
+
+
+            /* نجهز الكلمة الجديدة في المنتصف */
+
+            word.classList.remove("word-hide");
+            word.classList.add("word-show");
+
+
+            /* =========================================
+               3 — إجبار المتصفح على تسجيل الحالة
+            ========================================= */
+
+            requestAnimationFrame(() => {
+
+                requestAnimationFrame(() => {
+
+                    /* =================================
+                       4 — ظهور من المنتصف للخارج
+                    ================================= */
+
+                    word.classList.remove("word-show");
+                    word.classList.add("word-visible");
+
                 });
-    
-            }, 500);
-    
-        }, 3000);
-    
-    });
-    </script>
+
+            });
+
+
+            /* انتهاء الأنيميشن */
+
+            setTimeout(() => {
+
+                isAnimating = false;
+
+            }, 800);
+
+
+        }, 800);
+    }
+
+
+    /* أول كلمة */
+
+    showService(services[index]);
+
+
+    /* تغيير الكلمة كل 4 ثواني */
+
+    setInterval(changeWord, 4000);
+
+});
+</script>
+
 
 </body>
 </html>
